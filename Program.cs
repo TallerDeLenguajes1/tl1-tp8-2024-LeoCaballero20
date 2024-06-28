@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using RescursosTareas;
+﻿using RecursosTareas;
 
 List<Tarea> tareasPendientes = new List<Tarea>();
 List<Tarea> tareasRealizadas = new List<Tarea>();
@@ -54,11 +53,22 @@ do
     }
 } while (seguir == 1);
 
-
-static void mostrarTareas(List<Tarea> listaTareas)
+void mostrarTareas(List<Tarea> listaTareas)
 {
     foreach (Tarea tarea in listaTareas)
     {
         tarea.mostrarTarea();
     }
 }
+
+
+Console.WriteLine("\nInserte una descripción para buscar una tarea pendiente (inserte 'salir' para terminar búsqueda):");
+string descrip = Console.ReadLine();
+List<Tarea> tareasEncontradas = new List<Tarea>();
+foreach (Tarea t in tareasPendientes) {
+    if (t.Descripcion.Contains(descrip)) {
+        tareasEncontradas.Add(t);
+    }
+}
+Console.WriteLine("\nTareas coincidentes:");
+mostrarTareas(tareasEncontradas);
