@@ -1,74 +1,70 @@
-﻿using RecursosTareas;
+﻿using EspacioCalculadora;
 
-List<Tarea> tareasPendientes = new List<Tarea>();
-List<Tarea> tareasRealizadas = new List<Tarea>();
-
-string[] descripciones = new string[5];
-descripciones[0] = "realizar tp de taller";
-descripciones[1] = "estudiar algoritmos";
-descripciones[2] = "practicar metodos numericos";
-descripciones[3] = "terminar tp de matematica discreta";
-descripciones[4] = "corregir circuito";
-
-Console.WriteLine("Ingrese el número de tareas a crear\n");
-string cantIngresada = Console.ReadLine();
-Int32.TryParse(cantIngresada, out int N);
-
-for (int i = 0; i < N; i++)
-{
-    Random random = new Random();
-    string descripcionAleatoria = descripciones[random.Next(5)];
-    int duracionAleatoria = 10 + random.Next(91);
-    Tarea miTarea = new Tarea(i + 1, descripcionAleatoria, duracionAleatoria);
-    tareasPendientes.Add(miTarea);
+Calculadora miCalculadora = new Calculadora();
+bool encendida = true;
+Console.WriteLine("\nBienvenido a la calculadora\n");
+Console.WriteLine("Inserte un número inicial para operar: ");
+string numInicialIngresado = Console.ReadLine();
+Double.TryParse(numInicialIngresado, out double numInicial);
+miCalculadora.Sumar(numInicial);
+double operacion;
+do {
+do {
+Console.WriteLine("\nInserte el número de la operación deseada\n");
+Console.WriteLine("1.Sumar");
+Console.WriteLine("2.Restar");
+Console.WriteLine("3.Multiplicar");
+Console.WriteLine("4.Dividir");
+Console.WriteLine("5.Limpiar");
+Console.WriteLine("6.Salir\n");
+string operacionIngresada = Console.ReadLine();
+Double.TryParse(operacionIngresada, out operacion);
+} while (operacion < 1 || operacion > 7);
+switch (operacion) {
+    case 1: Console.WriteLine("\nIngrese un número para sumar:");
+            string numSumar = Console.ReadLine();
+            if (Double.TryParse(numSumar, out double numS)) {
+                miCalculadora.Sumar(numS);
+                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+            } else {
+                Console.WriteLine("Número inválido");
+            }
+    break;
+    case 2: Console.WriteLine("\nIngrese un número para restar:");
+            string numRestar = Console.ReadLine();
+            if (Double.TryParse(numRestar, out double numR)) {
+                miCalculadora.Restar(numR);
+                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+            } else {
+                Console.WriteLine("Número inválido");
+            }
+    break;
+    case 3: Console.WriteLine("\nIngrese un número para multiplicar:");
+            string numMult = Console.ReadLine();
+            if (Double.TryParse(numMult, out double numM)) {
+                miCalculadora.Multiplicar(numM);
+                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+            } else {
+                Console.WriteLine("Número inválido");
+            }
+    break;
+    case 4: Console.WriteLine("\nIngrese un número para dividir:");
+            string numDiv = Console.ReadLine();
+            if (Double.TryParse(numDiv, out double numD)) {
+                miCalculadora.Dividir(numD);
+                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+            } else {
+                Console.WriteLine("Número inválido");
+            }
+    break;
+    case 5: miCalculadora.Limpiar();
+            Console.WriteLine("Inserte un número inicial para operar: ");
+            string numInicialIngresado2 = Console.ReadLine();
+            Double.TryParse(numInicialIngresado2, out double numInicial2);
+            miCalculadora.Sumar(numInicial2);
+    break;
+    case 6: encendida = false;
+    break;
 }
-
-mostrarTareas(tareasPendientes);
-
-int seguir = 1;
-do
-{
-    Console.WriteLine("\nInserte el ID de la tarea que quiere marcar como realizada (inserte 0 para salir): ");
-    string numIngresado = Console.ReadLine();
-    Int32.TryParse(numIngresado, out int num);
-    if (num != 0)
-    {
-        foreach (var tarea in tareasPendientes)
-        {
-        if (tarea.TareaID == num) {
-            tarea.cambiarEstado();
-            tareasRealizadas.Add(tarea);
-            tareasPendientes.Remove(tarea);
-            break;
-        } 
-        }
-    }
-    else
-    {
-        seguir = 0;
-        Console.WriteLine("\nLas tareas pendientes son: ");
-        mostrarTareas(tareasPendientes);
-        Console.WriteLine("\nLas tareas realizadas son: ");
-        mostrarTareas(tareasRealizadas);
-    }
-} while (seguir == 1);
-
-void mostrarTareas(List<Tarea> listaTareas)
-{
-    foreach (Tarea tarea in listaTareas)
-    {
-        tarea.mostrarTarea();
-    }
-}
-
-
-Console.WriteLine("\nInserte una descripción para buscar una tarea pendiente (inserte 'salir' para terminar búsqueda):");
-string descrip = Console.ReadLine();
-List<Tarea> tareasEncontradas = new List<Tarea>();
-foreach (Tarea t in tareasPendientes) {
-    if (t.Descripcion.Contains(descrip)) {
-        tareasEncontradas.Add(t);
-    }
-}
-Console.WriteLine("\nTareas coincidentes:");
-mostrarTareas(tareasEncontradas);
+} while (encendida==true);
+Console.WriteLine("\nHasta la próxima!\n");
