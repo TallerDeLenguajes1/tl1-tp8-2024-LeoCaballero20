@@ -16,7 +16,8 @@ Console.WriteLine("2.Restar");
 Console.WriteLine("3.Multiplicar");
 Console.WriteLine("4.Dividir");
 Console.WriteLine("5.Limpiar");
-Console.WriteLine("6.Salir\n");
+Console.WriteLine("6.Salir");
+Console.WriteLine("7.Ver historial\n");
 string operacionIngresada = Console.ReadLine();
 Double.TryParse(operacionIngresada, out operacion);
 } while (operacion < 1 || operacion > 7);
@@ -24,8 +25,10 @@ switch (operacion) {
     case 1: Console.WriteLine("\nIngrese un número para sumar:");
             string numSumar = Console.ReadLine();
             if (Double.TryParse(numSumar, out double numS)) {
+                Operacion op = new Operacion(miCalculadora.Resultado, numS, TipoOperacion.Suma);
+                miCalculadora.Historial.Add(op);
                 miCalculadora.Sumar(numS);
-                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+                Console.WriteLine("\nResultado: " + miCalculadora.Resultado);
             } else {
                 Console.WriteLine("Número inválido");
             }
@@ -33,8 +36,10 @@ switch (operacion) {
     case 2: Console.WriteLine("\nIngrese un número para restar:");
             string numRestar = Console.ReadLine();
             if (Double.TryParse(numRestar, out double numR)) {
+                Operacion op = new Operacion(miCalculadora.Resultado, numR, TipoOperacion.Resta);
+                miCalculadora.Historial.Add(op);
                 miCalculadora.Restar(numR);
-                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+                Console.WriteLine("\nResultado: " + miCalculadora.Resultado);
             } else {
                 Console.WriteLine("Número inválido");
             }
@@ -42,8 +47,10 @@ switch (operacion) {
     case 3: Console.WriteLine("\nIngrese un número para multiplicar:");
             string numMult = Console.ReadLine();
             if (Double.TryParse(numMult, out double numM)) {
+                Operacion op = new Operacion(miCalculadora.Resultado, numM, TipoOperacion.Multiplicacion);
+                miCalculadora.Historial.Add(op);
                 miCalculadora.Multiplicar(numM);
-                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+                Console.WriteLine("\nResultado: " + miCalculadora.Resultado);
             } else {
                 Console.WriteLine("Número inválido");
             }
@@ -51,8 +58,10 @@ switch (operacion) {
     case 4: Console.WriteLine("\nIngrese un número para dividir:");
             string numDiv = Console.ReadLine();
             if (Double.TryParse(numDiv, out double numD)) {
+                Operacion op = new Operacion(miCalculadora.Resultado, numD, TipoOperacion.Division);
+                miCalculadora.Historial.Add(op);
                 miCalculadora.Dividir(numD);
-                Console.WriteLine("Resultado: " + miCalculadora.Resultado);
+                Console.WriteLine("\nResultado: " + miCalculadora.Resultado);
             } else {
                 Console.WriteLine("Número inválido");
             }
@@ -64,6 +73,8 @@ switch (operacion) {
             miCalculadora.Sumar(numInicial2);
     break;
     case 6: encendida = false;
+    break;
+    case 7: miCalculadora.verHistorial();
     break;
 }
 } while (encendida==true);
